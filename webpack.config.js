@@ -5,13 +5,29 @@ var
   ExtractTextPlugin = require('extract-text-webpack-plugin'),
   helpers = require('./helpers'),
   packageConf = require('./package.json')
-  runtimeDependencies = _.keys(_.get(packageConf, 'dependencies'));
-webpackTargetElectronRenderer = require('webpack-target-electron-renderer');
+runtimeDependencies = _.keys(_.get(packageConf, 'dependencies')),
+  target = process.env.TARGET || 'electron';
 
+if (target === 'web') {
+  runtimeDependencies = runtimeDependencies.filter((dep) => {
+    return [
+        'devtron',
+        'electron-debug',
+      ].indexOf(dep) === -1;
+  });
+}
+
+console.log('building with target: ' + target);
+console.log('automatically packing vendor dependencies: ', runtimeDependencies.join('\n* '));
 var options = {
+  devServer: {
+    inline: true,
+    port: 3003,
+    contentBase: './public'
+  },
   entry: {
-    vendor: [ './src/vendor.ts'].concat(runtimeDependencies),
-    main: './src/main.ts',
+    vendor: ['./src/vendor.ts'].concat(runtimeDependencies),
+    main: './src/electron-main.ts',
     app: './src/app.ts'
   },
   output: {
@@ -19,7 +35,7 @@ var options = {
     filename: '[name].js',
     chunkFilename: '[id].js'
   },
-  target: 'electron',
+  target: target,
   resolve: {
     extensions: ['', '.ts', '.js']
   },
@@ -63,20 +79,15 @@ var options = {
     ]
   },
   plugins: [
-    /*
-    new webpack.optimize.CommonsChunkPlugin({
-      name: ['main', 'app', 'vendor']
-    }),
-    */
     new webpack.NodeEnvironmentPlugin(),
     new webpack.ProvidePlugin({
       'window.jQuery': 'jquery'
     }),
     new HtmlWebpackPlugin({
-      template: 'src/index.html'
+      template: 'src/index.html',
+      chunks: ['vendor', 'app']
     })
   ],
 }
 
-// options.target = webpackTargetElectronRenderer(options);
 module.exports = options;

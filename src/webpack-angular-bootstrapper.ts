@@ -1,5 +1,6 @@
 import { IModule } from 'angular';
 
+
 export function loadComponentsOn(app: IModule) {
   const
     angular = require('angular'), // late-load angular, on porpoise

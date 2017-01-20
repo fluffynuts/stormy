@@ -12,7 +12,8 @@
     "build-and-run": "run-s build start",
     "watch": "nodemon -w src -e ts,html,css,js -x \"npm run build-and-run\"",
     "prepackage": "run-s build",
-    "package": "electron-packager . --platform=win32 --overwrite"
+    "package": "electron-packager . --out packages --platform=win32 --overwrite",
+    "dev": "cross-env TARGET=web webpack-dev-server --debug --devtool #inline-source-map"
   },
   "author": "Davyd McColl <davydm@gmail.com> (https://github.com/fluffynuts)",
   "license": "ISC",
@@ -41,6 +42,7 @@
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-stage-0": "^6.16.0",
     "babel-preset-stage-3": "^6.17.0",
+    "cross-env": "^3.1.4",
     "devtron": "^1.4.0",
     "electron-packager": "^8.5.0",
     "extract-text-webpack-plugin": "^1.0.1",
@@ -54,6 +56,7 @@
     "tslint": "^4.3.1",
     "typescript": "^2.1.5",
     "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.16.2",
     "webpack-target-electron-renderer": "^0.4.0"
   }
 }

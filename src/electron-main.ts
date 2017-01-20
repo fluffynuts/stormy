@@ -1,5 +1,6 @@
 import { app } from 'electron';
 import { MainWindow } from './main-window';
+debugger;
 require('electron-debug')();
 
 let mainWindow;

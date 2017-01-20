@@ -1,3 +1,4 @@
+debugger;
 import { BrowserWindow, app } from 'electron';
 import * as path from 'path';
 import * as url from 'url';

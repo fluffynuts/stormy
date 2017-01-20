@@ -1,4 +1,4 @@
-import { registerNavigationRegistrarOn } from './components/navigation-registrar';
+import { registerNavigationRegistrarOn } from './components/shared/navigation-registrar';
 import { loadComponentsOn } from './webpack-angular-bootstrapper';
 import * as angular from 'angular';
 
